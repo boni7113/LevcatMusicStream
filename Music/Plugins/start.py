@@ -138,6 +138,9 @@ async def play(_, message: Message):
         await app.send_message(
             message.chat.id,
             text=f"""
+            
+──『[ʟᴇᴠᴄᴀᴛ](https://telegra.ph/file/e907ab3b53b6c352f34a4.jpg)』            
+
 **Selamat Datang {rpk}!
 
 [{BOT_NAME}](tg://user?id=2129034376) dibuat untuk memutar musik pada Voice Call Group di Telegram!
