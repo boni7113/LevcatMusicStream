@@ -42,7 +42,7 @@ async def _human_time_duration(seconds):
     return ', '.join(parts)
 
 
-KYY_IMG = "https://telegra.ph/file/2b610c918dec590d2777b.jpg"
+LEVCAT_IMG = "https://telegra.ph/file/e907ab3b53b6c352f34a4.jpg"
 
 
 @app.on_message(filters.command(["alive", "alive@Tg_Vc_00_Bot"]))
@@ -51,14 +51,14 @@ async def alive(client, message):
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
     await client.send_photo(message.chat.id,
-        photo=f"{KYY_IMG}",
-        caption=f"""**Holla {message.from_user.mention()}.** \n
-✘ **I'm Working Properly** \n
-✘ **Uptime : `{uptime}`** \n
-✘ **Pyrogram Version : `{pyrover}`** \n
-✘ **PyTgCalls Version: `{pytover.__version__}`** \n
-✘ **Using New Version** \n
-**Thanks For Using Me 🔥**""",
+        photo=f"{LEVCAT_IMG}",
+        caption=f"""**ʜᴀʟᴏ {message.from_user.mention()}.** \n
+💠**ʙᴏᴛ ʙᴇᴋᴇʀᴊᴀ ᴅᴇɴɢᴀɴ ʙᴀɪᴋ** \n
+💠**ᴜᴘᴛɪᴍᴇ : `{uptime}`** \n
+💠**ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ : `{pyrover}`** \n
+💠**ᴘʏᴛɢᴄᴀʟʟs ᴠᴇʀsɪᴏɴ : `{pytover.__version__}`** \n
+💠**ᴍᴀɴᴀɢᴇᴅ ʙʏ @catcaturboy** \n
+**ᴛᴇʀɪᴍᴀᴋᴀsɪʜ ᴛᴇʟᴀʜ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ʙᴏᴛ ᴋᴀᴍɪ**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
