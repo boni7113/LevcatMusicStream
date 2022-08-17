@@ -36,14 +36,9 @@
 - `/pmpermit [on/off]` - enable/disable pmpermit message
 
 ### Deployment Method
-Heroku
 The easy way to host this bot, deploy to Heroku, Change the app country to Europe (it will help to make the bot stable).
 <p align="center">
 <a href="https://dashboard.heroku.com/new?template=https://github.com/Levigodbot/LevcatMusicStream"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="250""/</a>
-
-VPS
-
-
 
 ### Support & Channel 
 <a href="https://t.me/gamingaddicts"><img src="https://img.shields.io/badge/Join-Group%20Support-red.svg?style=for-the-badge&logo=Telegram"></a> <a href="https://t.me/gamingaddictch"><img src="https://img.shields.io/badge/Join-Updates%20Channel-white.svg?style=for-the-badge&logo=Telegram"></a>
