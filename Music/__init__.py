@@ -22,6 +22,7 @@ from Music.config import (
     UPSTREAM_REPO
 )
 from Music.converter.cli import app, userbot
+client = userbot
 from Music.MusicUtilities.helpers.tasks import install_requirements
 
 console = Console()
