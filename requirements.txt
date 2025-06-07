@@ -8,7 +8,7 @@ ffmpeg-python
 pytube>=15.0.0
 
 # Telegram Group Calls (install via git karena tidak tersedia di PyPI)
-py-tgcalls==2.0.7
+git+https://github.com/pytgcalls/pytgcalls
 
 # HTTP/Async
 aiohttp>=3.9.5
