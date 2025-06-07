@@ -1,80 +1,82 @@
-import time
-import pytz
 import asyncio
-import time
-import uvloop
-import importlib
-from pytz import utc
+import pytz
 from pyrogram import Client
-from Music.config import AUTO_LEAVE
-from Music.config import API_ID, API_HASH, BOT_TOKEN, MONGO_DB_URI, SUDO_USERS, LOG_GROUP_ID
-from Music import BOT_NAME, ASSNAME, app, client
-from Music.MusicUtilities.database.functions import clean_restart_stage
-from Music.MusicUtilities.database.queue import (get_active_chats, remove_active_chat)
-from Music.MusicUtilities.tgcallsrun import run
 from pytgcalls import idle
-from Music.MusicUtilities.helpers.autoleave import leave_from_inactive_call
-from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-
-scheduler = AsyncIOScheduler()
-
-Client(
-    ':Music:',
+from Music.config import (
     API_ID,
     API_HASH,
-    bot_token=BOT_TOKEN,
-    plugins={'root': 'Music.Plugins'},
-).start()
+    BOT_TOKEN,
+    AUTO_LEAVE,
+    LOG_GROUP_ID
+)
+from Music import app, client, BOT_NAME, ASSNAME
+from Music.MusicUtilities.database.functions import clean_restart_stage
+from Music.MusicUtilities.database.queue import get_active_chats, remove_active_chat
+from Music.MusicUtilities.helpers.autoleave import leave_from_inactive_call
+from Music.MusicUtilities.tgcallsrun import run
 
 
-print(f"[INFO]: BOT STARTED AS {BOT_NAME}!")
-print(f"[INFO]: ASSISTANT STARTED AS {ASSNAME}!")
-
+# Inisialisasi Scheduler
+scheduler = AsyncIOScheduler(timezone=pytz.utc)
 
 
 async def load_start():
     restart_data = await clean_restart_stage()
     if restart_data:
-        print("[INFO]: SENDING RESTART STATUS TO SERVER")
+        print("[INFO]: Sending restart status...")
         try:
             await app.edit_message_text(
                 restart_data["chat_id"],
                 restart_data["message_id"],
-                "**Restarted the Bot Successfully.**",
+                "**✅ Bot berhasil direstart.**",
             )
-        except Exception:
-            pass
-    served_chats = []
+        except Exception as e:
+            print(f"[WARN]: Tidak bisa kirim pesan restart: {e}")
+
     try:
         chats = await get_active_chats()
         for chat in chats:
-            served_chats.append(int(chat["chat_id"]))
+            try:
+                await remove_active_chat(int(chat["chat_id"]))
+            except Exception as e:
+                print(f"[WARN]: Gagal hapus chat aktif {chat}: {e}")
     except Exception as e:
-        print("Error came while clearing db")
-    for served_chat in served_chats:
-        try:
-            await remove_active_chat(served_chat)                                         
-        except Exception as e:
-            print("Error came while clearing db")
-            pass     
-    await app.send_message(LOG_GROUP_ID, "Bot Started")
-    print("[INFO]: STARTED BOT AND SENDING THE INFO TO SERVER")
+        print(f"[ERROR]: Tidak bisa ambil chat aktif: {e}")
+
+    try:
+        await app.send_message(LOG_GROUP_ID, "**✅ Bot berhasil dijalankan.**")
+    except Exception as e:
+        print(f"[WARN]: Gagal kirim log: {e}")
+
     if AUTO_LEAVE:
-        print("[ INFO ] STARTING SCHEDULER")
-        scheduler.configure(timezone=pytz.utc)
-        scheduler.add_job(
-            leave_from_inactive_call, "interval", seconds=AUTO_LEAVE
-        )
+        print("[INFO]: Menjalankan auto-leave scheduler...")
+        scheduler.add_job(leave_from_inactive_call, "interval", seconds=AUTO_LEAVE)
         scheduler.start()
-    
-   
-loop = asyncio.get_event_loop()
-loop.run_until_complete(load_start())
 
-run()
-idle()
-loop.close()
 
-print("[LOG] CLOSING BOT")
+async def main():
+    print(f"[INFO]: Memulai BOT sebagai {BOT_NAME}")
+    await app.start()
+
+    print(f"[INFO]: Memulai Assistant sebagai {ASSNAME}")
+    await client.start()
+
+    await load_start()
+
+    print("[INFO]: Memulai panggilan suara...")
+    run()
+
+    await idle()
+
+    print("[INFO]: Bot dihentikan.")
+    await app.stop()
+    await client.stop()
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("[INFO]: Dihentikan oleh pengguna.")
