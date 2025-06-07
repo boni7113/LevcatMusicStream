@@ -1,5 +1,5 @@
 ##Config
-
+print("MONGO_DB_URI =", repr(MONGO_DB_URI))
 from os import getenv
 from dotenv import load_dotenv
 
