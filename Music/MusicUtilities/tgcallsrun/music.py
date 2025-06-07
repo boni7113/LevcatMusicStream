@@ -3,8 +3,7 @@ from typing import Dict
 import random
 from pytgcalls import PyTgCalls
 from pytgcalls.types import Update
-from pytgcalls.types.input_stream import InputAudioStream
-from pytgcalls.types.input_stream import InputStream
+from pytgcalls.types.input_stream import InputAudioStream, InputStream
 from Music import app, BOT_USERNAME
 from Music import config
 from pyrogram import Client
