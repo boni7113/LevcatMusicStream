@@ -27,6 +27,10 @@ from Music.MusicUtilities.helpers.tasks import install_requirements
 console = Console()
 boottime = time.time()
 
+# Validasi config agar tidak kosong
+if not MONGO_DB_URI:
+    raise RuntimeError("❌ MONGO_DB_URI tidak ditemukan atau kosong. Pastikan .env sudah disiapkan.")
+
 # Global variabel
 db = AsyncIOMotorClient(MONGO_DB_URI).wbb
 SUDOERS = SUDO_USERS
@@ -118,6 +122,6 @@ async def main():
 # Eksekusi
 if __name__ == "__main__":
     try:
-        asyncio.get_event_loop().run_until_complete(main())
+        asyncio.run(main())
     except KeyboardInterrupt:
-        print("Bot stopped by user.")
+        print("❌ Bot dihentikan oleh pengguna.")
