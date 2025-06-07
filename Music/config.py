@@ -1,5 +1,5 @@
 ##Config
-print("MONGO_DB_URI =", repr(MONGO_DB_URI))
+
 from os import getenv
 from dotenv import load_dotenv
 
@@ -25,12 +25,11 @@ API_HASH = getenv('API_HASH')
 DURATION_LIMIT = get_int_env('DURATION_LIMIT', 3600)
 COMMAND_PREFIXES = getenv('COMMAND_PREFIXES', '/ . , : ; !').split()
 MONGO_DB_URI = getenv("MONGO_DB_URI")
-
+print("MONGO_DB_URI =", repr(MONGO_DB_URI))
 SUDO_USERS = get_list_int_env('SUDO_USERS', [1663258664])
 LOG_GROUP_ID = get_int_env("LOG_GROUP_ID", -1001288822269)
 ASS_ID = get_int_env("ASS_ID", 2130437611)
 OWNER_ID = get_list_int_env('OWNER_ID', [1663258664])
-
 GROUP = getenv("GROUP", None)
 CHANNEL = getenv("CHANNEL", None)
 AUTO_LEAVE = get_int_env("AUTO_LEAVE", 1500)
