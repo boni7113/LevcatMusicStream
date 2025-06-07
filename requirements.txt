@@ -1,5 +1,5 @@
 # Core libraries
-pyrogram==2.1.18
+git+https://github.com/TelegramPlayground/pyrogram
 tgcrypto
 
 # Audio/Streaming
